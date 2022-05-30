@@ -1,8 +1,8 @@
 import React from 'react';
-import TestScreen from './src/screens/TestScreen';
+import StackNavigator from './src/navigators/StackNavigator';
 
 const App = () => {
-  return <TestScreen />;
+  return <StackNavigator />;
 };
 
 export default App;
