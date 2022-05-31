@@ -16,10 +16,7 @@ const StackNavigator = () => {
     <NavigationContainer>
       <RootStack.Navigator
         screenOptions={{
-          headerStyle: {
-            elevation: 0,
-            shadowColor: 'transparent',
-          },
+          headerShown: false,
           cardStyle: {
             backgroundColor: 'white',
           },

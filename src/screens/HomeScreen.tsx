@@ -1,13 +1,15 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Image, Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { appStyles } from '../theme/appTheme';
 
 const HomeScreen = () => {
+  const { top } = useSafeAreaInsets();
   return (
-    <View>
-      <Text>Home screen</Text>
-      <Icon name="home-outline" size={100} />
-    </View>
+    <>
+      <Image source={require('../assets/pokeball.png')} style={appStyles.pokeBallBackground} />
+      <Text style={{ ...appStyles.title, ...appStyles.globalMargin, top: top + 20 }}>Pokédex</Text>
+    </>
   );
 };
 
