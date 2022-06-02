@@ -3,12 +3,13 @@ import { ActivityIndicator, FlatList, Image } from 'react-native';
 import { usePokemonPaginated } from '../hooks/usePokemonPaginated';
 import { appStyles } from '../theme/appTheme';
 import { Pokemon } from '../interfaces/pokemon';
+import { FadeInImage } from '../components/FadeInImage';
 
 const HomeScreen = () => {
   const { pokemonList, loadPokemons } = usePokemonPaginated();
 
   const renderItem = ({ item }: { item: Pokemon }) => {
-    return <Image source={{ uri: item.picture }} style={{ width: 100, height: 100 }} />;
+    return <FadeInImage uri={item.picture} style={{ width: 100, height: 100 }} />;
   };
 
   return (
