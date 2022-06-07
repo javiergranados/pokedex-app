@@ -3,10 +3,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 import PokemonScreen from '../screens/PokemonScreen';
+import { Pokemon } from '../interfaces/pokemon';
 
 export type RootStackParamList = {
   HomeScreen: undefined;
-  PokemonScreen: undefined;
+  PokemonScreen: { pokemon: Pokemon; color: string };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
