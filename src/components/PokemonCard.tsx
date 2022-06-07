@@ -1,18 +1,48 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, TouchableOpacity, View, Text, Image } from 'react-native';
 import { Pokemon } from '../interfaces/pokemon';
 import { FadeInImage } from './FadeInImage';
+import ImageColors from 'react-native-image-colors';
 
-const windowWith = Dimensions.get('window').width;
+const FALLBACK_COLOR = 'grey';
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
 
 interface Props {
   pokemon: Pokemon;
 }
 
 export const PokemonCard = ({ pokemon }: Props) => {
+  const [bgColor, setBgColor] = useState<string>(FALLBACK_COLOR);
+  const isMounted = useRef<boolean>(true);
+
+  useEffect(() => {
+    ImageColors.getColors(pokemon.picture, {
+      fallback: FALLBACK_COLOR,
+      cache: true,
+      key: pokemon.id,
+    }).then((result) => {
+      if (!isMounted) return;
+
+      switch (result.platform) {
+        case 'android':
+          setBgColor(result.dominant || FALLBACK_COLOR);
+          break;
+        case 'ios':
+          setBgColor(result.background);
+          break;
+        default:
+          setBgColor(FALLBACK_COLOR);
+      }
+    });
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   return (
     <TouchableOpacity activeOpacity={0.9}>
-      <View style={{ ...styles.container, width: windowWith * 0.4 }}>
+      <View style={{ ...styles.container, backgroundColor: bgColor, width: WINDOW_WIDTH * 0.4 }}>
         <Text style={styles.name}>
           {pokemon.name}
           {'\n#' + pokemon.id}
@@ -32,7 +62,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 25,
     borderRadius: 10,
-    backgroundColor: 'red',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
