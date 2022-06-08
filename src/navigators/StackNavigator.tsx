@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 import PokemonScreen from '../screens/PokemonScreen';
 import { Pokemon } from '../interfaces/pokemon';
@@ -14,19 +13,17 @@ const RootStack = createStackNavigator<RootStackParamList>();
 
 const StackNavigator = () => {
   return (
-    <NavigationContainer>
-      <RootStack.Navigator
-        screenOptions={{
-          headerShown: false,
-          cardStyle: {
-            backgroundColor: 'white',
-          },
-        }}
-      >
-        <RootStack.Screen name="HomeScreen" component={HomeScreen} />
-        <RootStack.Screen name="PokemonScreen" component={PokemonScreen} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <RootStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: {
+          backgroundColor: 'white',
+        },
+      }}
+    >
+      <RootStack.Screen name="HomeScreen" component={HomeScreen} />
+      <RootStack.Screen name="PokemonScreen" component={PokemonScreen} />
+    </RootStack.Navigator>
   );
 };
 
