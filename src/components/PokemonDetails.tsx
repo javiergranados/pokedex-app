@@ -13,7 +13,7 @@ export const PokemonDetails = ({ details }: Props) => {
       <Text style={styles.title}>Types</Text>
       <View style={{ flexDirection: 'row' }}>
         {details.types.map(({ type }) => (
-          <Text style={{ ...styles.text, marginRight: 10 }} key={type.name}>
+          <Text style={styles.text} key={type.name}>
             {type.name}
           </Text>
         ))}
@@ -24,7 +24,7 @@ export const PokemonDetails = ({ details }: Props) => {
   const weight = (
     <>
       <Text style={styles.title}>Weight</Text>
-      <Text style={styles.text}>{details.weight}Kg</Text>
+      <Text style={styles.text}>{details.weight / 10}Kg</Text>
     </>
   );
 
@@ -42,7 +42,7 @@ export const PokemonDetails = ({ details }: Props) => {
       <Text style={styles.title}>Base skills</Text>
       <View style={{ flexDirection: 'row' }}>
         {details.abilities.map(({ ability }) => (
-          <Text style={{ ...styles.text, marginRight: 10 }} key={ability.name}>
+          <Text style={styles.text} key={ability.name}>
             {ability.name}
           </Text>
         ))}
@@ -56,12 +56,24 @@ export const PokemonDetails = ({ details }: Props) => {
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.moves}>
           {details.moves.map(({ move }) => (
-            <Text style={{ ...styles.text, marginRight: 10 }} key={move.name}>
+            <Text style={styles.text} key={move.name}>
               {move.name}
             </Text>
           ))}
         </View>
       </View>
+    </>
+  );
+
+  const stats = (
+    <>
+      <Text style={styles.title}>Stats</Text>
+      {details.stats.map((stat, i) => (
+        <View style={styles.stat} key={stat.stat.name + i}>
+          <Text style={{ ...styles.text, width: 150 }}>{stat.stat.name}</Text>
+          <Text style={{ ...styles.text, fontWeight: 'bold' }}>{stat.base_stat}</Text>
+        </View>
+      ))}
     </>
   );
 
@@ -74,6 +86,10 @@ export const PokemonDetails = ({ details }: Props) => {
       </View>
       <View style={appStyles.globalMargin}>{baseSkills}</View>
       <View style={appStyles.globalMargin}>{moves}</View>
+      <View style={appStyles.globalMargin}>{stats}</View>
+      <View style={styles.footer}>
+        <Image source={{ uri: details.sprites.front_default }} style={styles.sprite} />
+      </View>
     </ScrollView>
   );
 };
@@ -86,6 +102,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 19,
+    marginRight: 10,
   },
   sprite: {
     width: 100,
@@ -94,5 +111,13 @@ const styles = StyleSheet.create({
   moves: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  stat: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  footer: {
+    marginVertical: 20,
+    alignItems: 'center',
   },
 });
