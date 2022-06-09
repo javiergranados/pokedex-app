@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Platform, ActivityIndicator, Text } from 'react-native';
+import { View, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Loading } from '../components/Loading';
 import { SearchInput } from '../components/SearchInput';
 import { usePokemonList } from '../hooks/usePokemonList';
 import { appStyles } from '../theme/appTheme';
@@ -10,12 +11,7 @@ const SearchScreen = () => {
   const { isLoading, pokemonList } = usePokemonList();
 
   if (isLoading) {
-    return (
-      <View style={styles.activityContainer}>
-        <ActivityIndicator size={50} color="grey" />
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Loading />;
   }
   return (
     <View style={{ ...appStyles.globalMargin, flex: 1, marginTop: Platform.OS === 'ios' ? top : top + 10 }}>
@@ -23,13 +19,5 @@ const SearchScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  activityContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default SearchScreen;
