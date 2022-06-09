@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, FlatList, Text, Dimensions, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Loading } from '../components/Loading';
@@ -12,7 +12,20 @@ const screenWidth = Dimensions.get('window').width;
 
 const SearchScreen = () => {
   const { top } = useSafeAreaInsets();
+  const [filter, setFilter] = useState<string>('');
   const { isLoading, pokemonList } = usePokemonList();
+
+  const pokemonListFiltered = useMemo(() => {
+    if (!filter.length) {
+      return [];
+    }
+    if (isNaN(Number(filter))) {
+      return pokemonList.filter((pokemon) => pokemon.name.toLowerCase().includes(filter.toLowerCase()));
+    }
+
+    const pokemonById = pokemonList.find((pokemon) => pokemon.id === filter);
+    return pokemonById ? [pokemonById] : [];
+  }, [filter, pokemonList]);
 
   const renderItem = ({ item }: { item: Pokemon }) => {
     return <PokemonCard pokemon={item} />;
@@ -30,9 +43,10 @@ const SearchScreen = () => {
           zIndex: 999,
           width: screenWidth - 40,
         }}
+        onDebounce={setFilter}
       />
       <FlatList
-        data={pokemonList}
+        data={pokemonListFiltered}
         keyExtractor={(pokemon) => pokemon.id}
         showsVerticalScrollIndicator={false}
         numColumns={2}
@@ -45,7 +59,7 @@ const SearchScreen = () => {
               marginTop: Platform.OS === 'ios' ? top + 50 : top + 80,
             }}
           >
-            Pokédex
+            {filter}
           </Text>
         }
         renderItem={renderItem}
